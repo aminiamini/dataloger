@@ -1,0 +1,59 @@
+{% extends 'partials/base.html' %}
+{% block title %} data chart {% endblock%}
+
+{% block content %}
+
+<div class="col-md-10">
+    <div>
+        <canvas id="tempChart"></canvas>
+        <canvas id="humChart"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
+      <script>
+        const ctx = document.getElementById('tempChart');
+        const dtx = document.getElementById('humChart');
+      
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [{% for d in data %} '{{d.time}}', {% endfor %}],
+            datasets: [{
+              label: 'temprature C',
+              data: [{% for d in data %} '{{d.temprature}}', {% endfor %}],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        new Chart(dtx, {
+            type: 'line',
+            data: {
+              labels: [{% for d in data %} '{{d.time}}', {% endfor %}],
+              datasets: [{
+                label: 'Humidity %',
+                data: [{% for d in data %} '{{d.humidity}}', {% endfor %}],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+
+
+      </script>
+
+{% endblock %}
